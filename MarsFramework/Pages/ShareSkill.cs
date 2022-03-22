@@ -1,13 +1,17 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
 
 namespace MarsFramework.Pages
 {
     internal class ShareSkill
     {
+        IWebDriver driver;
         public ShareSkill()
         {
             PageFactory.InitElements(Global.GlobalDefinitions.driver, this);
+            driver = Global.GlobalDefinitions.driver;
         }
 
         //Click on ShareSkill Button
@@ -31,16 +35,16 @@ namespace MarsFramework.Pages
         private IWebElement SubCategoryDropDown { get; set; }
 
         //Enter Tag names in textbox
-        [FindsBy(How = How.XPath, Using = "//body/div/div/div[@id='service-listing-section']/div[contains(@class,'ui container')]/div[contains(@class,'listing')]/form[contains(@class,'ui form')]/div[contains(@class,'tooltip-target ui grid')]/div[contains(@class,'twelve wide column')]/div[contains(@class,'')]/div[contains(@class,'ReactTags__tags')]/div[contains(@class,'ReactTags__selected')]/div[contains(@class,'ReactTags__tagInput')]/input[1]")]
+        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Add new tag'][1]")]
         private IWebElement Tags { get; set; }
 
         //Select the Service type
-        [FindsBy(How = How.XPath, Using = "//form/div[5]/div[@class='twelve wide column']/div/div[@class='field']")]
-        private IWebElement ServiceTypeOptions { get; set; }
+        [FindsBy(How = How.XPath, Using = "//input[@name='serviceType']")]
+        private IList<IWebElement> ServiceTypeOptions { get; set; }
 
         //Select the Location Type
-        [FindsBy(How = How.XPath, Using = "//form/div[6]/div[@class='twelve wide column']/div/div[@class = 'field']")]
-        private IWebElement LocationTypeOption { get; set; }
+        [FindsBy(How = How.XPath, Using = "//input[@name='locationType']")]
+        private IList<IWebElement> LocationTypeOption { get; set; }
 
         //Click on Start Date dropdown
         [FindsBy(How = How.Name, Using = "startDate")]
@@ -51,36 +55,36 @@ namespace MarsFramework.Pages
         private IWebElement EndDateDropDown { get; set; }
 
         //Storing the table of available days
-        [FindsBy(How = How.XPath, Using = "//body/div/div/div[@id='service-listing-section']/div[@class='ui container']/div[@class='listing']/form[@class='ui form']/div[7]/div[2]/div[1]")]
-        private IWebElement Days { get; set; }
+        [FindsBy(How = How.XPath, Using = "//input[@name='Available' and @type='checkbox']")]
+        private IList<IWebElement> Days { get; set; }
 
         //Storing the starttime
-        [FindsBy(How = How.XPath, Using = "//div[3]/div[2]/input[1]")]
-        private IWebElement StartTime { get; set; }
+        [FindsBy(How = How.XPath, Using = "//input[@name='StartTime']")]
+        private IList<IWebElement> StartTime { get; set; }
 
         //Click on StartTime dropdown
         [FindsBy(How = How.XPath, Using = "//div[3]/div[2]/input[1]")]
         private IWebElement StartTimeDropDown { get; set; }
 
         //Click on EndTime dropdown
-        [FindsBy(How = How.XPath, Using = "//div[3]/div[3]/input[1]")]
-        private IWebElement EndTimeDropDown { get; set; }
+        [FindsBy(How = How.XPath, Using = "//input[@name='EndTime']")]
+        private IList<IWebElement> EndTime { get; set; }
 
         //Click on Skill Trade option
-        [FindsBy(How = How.XPath, Using = "//form/div[8]/div[@class='twelve wide column']/div/div[@class = 'field']")]
-        private IWebElement SkillTradeOption { get; set; }
+        [FindsBy(How = How.XPath, Using = "//input[@name='skillTrades']")]
+        private IList<IWebElement> SkillTradeOption { get; set; }
 
         //Enter Skill Exchange
-        [FindsBy(How = How.XPath, Using = "//div[@class='form-wrapper']//input[@placeholder='Add new tag']")]
-        private IWebElement SkillExchange { get; set; }
+        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Add new tag']")]
+        private IList<IWebElement> SkillExchange { get; set; }
 
         //Enter the amount for Credit
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Amount']")]
         private IWebElement CreditAmount { get; set; }
 
         //Click on Active/Hidden option
-        [FindsBy(How = How.XPath, Using = "//form/div[10]/div[@class='twelve wide column']/div/div[@class = 'field']")]
-        private IWebElement ActiveOption { get; set; }
+        [FindsBy(How = How.XPath, Using = "//input[@name='isActive' and @type='radio']")]
+        private IList<IWebElement> ActiveOption { get; set; }
 
         //Click on Save button
         [FindsBy(How = How.XPath, Using = "//input[@value='Save']")]
@@ -88,12 +92,34 @@ namespace MarsFramework.Pages
 
         internal void EnterShareSkill()
         {
-
+            driver.Navigate().GoToUrl("file:///D:/desktop/automation/cssfiles/ServiceListing.html");
+            //ShareSkillButton.Click();
+            Title.SendKeys("HTML");
+            Description.SendKeys("Good in designing and development");
+            SelectElement category = new SelectElement(CategoryDropDown);
+            category.SelectByText("Graphics & Design");
+            Tags.SendKeys("html {ENTER}");
+            Tags.SendKeys("designing {ENTER}");
+            ServiceTypeOptions[0].Click();
+            LocationTypeOption[0].Click();
+            StartDateDropDown.SendKeys("02-03-2022");
+            EndDateDropDown.SendKeys("30-03-2022");
+            for (var element = 0; element < Days.Count; element++)
+            {
+                Days[element].Click();
+                StartTime[element].SendKeys("09:30");
+                EndTime[element].SendKeys("10:30");
+            }
+            SkillTradeOption[0].Click();
+            SkillExchange[1].SendKeys("React {ENTER}");
+            SkillExchange[1].SendKeys("Javascript {ENTER}");
+            ActiveOption[0].Click();
+            Save.Click();
         }
 
         internal void EditShareSkill()
         {
-
+            
         }
     }
 }

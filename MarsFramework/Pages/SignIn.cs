@@ -5,9 +5,11 @@ namespace MarsFramework.Pages
 {
     class SignIn
     {
+        IWebDriver driver;
         public SignIn()
         {
             PageFactory.InitElements(Global.GlobalDefinitions.driver, this);
+            driver = Global.GlobalDefinitions.driver;
         }
 
         #region  Initialize Web Elements 
@@ -31,7 +33,11 @@ namespace MarsFramework.Pages
 
         internal void LoginSteps()
         {
-
+            // driver.Navigate().GoToUrl("file:///D:/desktop/automation/cssfiles/ServiceListing.html");
+            SignIntab.Click();
+            Email.SendKeys("email");
+            Password.SendKeys("password");
+            LoginBtn.Click();
         }
     }
 }
